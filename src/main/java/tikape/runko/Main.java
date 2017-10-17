@@ -22,14 +22,14 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat", (req, res) -> {
+        get("/annokset", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelijat", RaakaaineDao.findAll());
+            map.put("annokset", RaakaaineDao.findAll());
 
-            return new ModelAndView(map, "opiskelijat");
+            return new ModelAndView(map, "annokset");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat/:id", (req, res) -> {
+        get("/annokset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("opiskelija", RaakaaineDao.findOne(Integer.parseInt(req.params("id"))));
 

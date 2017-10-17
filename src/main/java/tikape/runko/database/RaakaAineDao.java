@@ -49,22 +49,22 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
     public List<RaakaAine> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Opiskelija");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RaakaAine");
 
         ResultSet rs = stmt.executeQuery();
-        List<RaakaAine> opiskelijat = new ArrayList<>();
+        List<RaakaAine> raakaAineet = new ArrayList<>();
         while (rs.next()) {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
 
-            opiskelijat.add(new RaakaAine(id, nimi));
+            raakaAineet.add(new RaakaAine(id, nimi));
         }
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return opiskelijat;
+        return raakaAineet;
     }
 
     @Override
