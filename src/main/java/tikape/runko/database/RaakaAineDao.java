@@ -20,6 +20,32 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
     public RaakaAineDao(Database database) {
         this.database = database;
     }
+    
+    public List<RaakaAine> findOneWithId(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine, Annos, AnnosRaakaAine WHERE Raakaaine.id = AnnosRaakaAine.raaka_aine_Id AND AnnosRaakaAine.raaka_aine_id = annos.id AND annos.id = ?");
+        
+        stmt.setObject(1, key);
+        List<RaakaAine> raakaAineet = new ArrayList<>();
+
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
+            return null;
+        }
+
+        Integer id = rs.getInt("id");
+        String nimi = rs.getString("nimi");
+
+        RaakaAine o = new RaakaAine(id, nimi);
+        raakaAineet.add(o);
+        
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return raakaAineet;
+    }
 
     @Override
     public RaakaAine findOne(Integer key) throws SQLException {

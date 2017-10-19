@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Ohje</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+        <h1> Raaka-aineet </h1>
+        <ol>
+            <li th:each="raakaAineet: ${raakaAineet}">
+                <span th:text="${raakaAineet}">Raaka-aineen nimi</span> <a th:href="${'/annokset/' + annos.nimi}">linkki</a>
+            </li>
+        </ol>
+        
+        <h1> Ohje </h1>
+    </body>
+</html>

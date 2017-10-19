@@ -4,6 +4,7 @@ import java.util.HashMap;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import tikape.runko.database.AnnosDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.RaakaAineDao;
 
@@ -13,7 +14,8 @@ public class Main {
         Database database = new Database("jdbc:sqlite:db/tietokanta.db");
         database.init();
 
-        RaakaAineDao RaakaaineDao = new RaakaAineDao(database);
+        RaakaAineDao raakaaineDao = new RaakaAineDao(database);
+        AnnosDao annosDao = new AnnosDao(database);
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -24,16 +26,18 @@ public class Main {
 
         get("/annokset", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("annokset", RaakaaineDao.findAll());
+            map.put("annokset", annosDao.findAll());
 
             return new ModelAndView(map, "annokset");
         }, new ThymeleafTemplateEngine());
 
         get("/annokset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelija", RaakaaineDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("raakaAineet", raakaaineDao.findOneWithId(Integer.parseInt(req.params("id"))));
 
-            return new ModelAndView(map, "opiskelija");
+            return new ModelAndView(map, "ohje");
         }, new ThymeleafTemplateEngine());
+        
+        
     }
 }
