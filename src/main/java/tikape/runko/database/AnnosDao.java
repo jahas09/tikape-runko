@@ -66,5 +66,34 @@ public class AnnosDao implements Dao<Annos, Integer> {
     public void delete(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public void lisaaAnnos(String nimi) throws SQLException {
+        Annos lisattava = onkoTallennettu(nimi);
+
+        if (lisattava == null) {
+
+            try (Connection conn = database.getConnection()) {
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO Annos (nimi) VALUES (?)");
+                stmt.setString(1, nimi);
+                stmt.executeUpdate();
+            }
+        }
+
+    }
+
+    private Annos onkoTallennettu(String nimi) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM RaakaAine WHERE nimi = ?");
+            stmt.setString(1, nimi);
+
+            ResultSet result = stmt.executeQuery();
+            if (!result.next()) {
+                return null;
+            }
+
+            return new Annos(result.getInt("id"), result.getString("nimi"));
+        }
+    }
+
 
 }
