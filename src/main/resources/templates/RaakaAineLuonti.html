@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Ohje1</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+        <h1> Lisää uusi raaka-aine </h1>
+        <h2>Lista raaka-ainesta jotka on jo tietokannassa</h2>
+        <h3 th:text="${annos}">testi</h3>
+
+        <ol>
+            <li th:each="raaka: ${raaka}">
+                <span th:text="${raaka.nimi}">raakaaineen nimi</span> 
+            </li>
+        </ol>
+
+        <form method="POST" action="/RaakaAineLuonti">
+            Raakaaine:<br/>
+            <input type="text" name="Raakaaine"/><br/>
+            Maara:<br/>
+            <input type="text" name="Maara"/><br/>
+            Jarjestys:<br/>
+            <input type="text" name="Jarjestys"/><br/>
+            Ohje:<br/>
+            <input type="text" name="Ohje"/><br/>
+            <input type="submit" value="Lisää raakaaine"/>
+        </form>
+
+    </body>
+</html>
