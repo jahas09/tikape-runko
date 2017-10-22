@@ -106,7 +106,7 @@ public class AnnosDao implements Dao<Annos, Integer> {
 
     private Annos onkoTallennettu(String nimi) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM RaakaAine WHERE nimi = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM Annos WHERE nimi = ?");
             stmt.setString(1, nimi);
 
             ResultSet result = stmt.executeQuery();
