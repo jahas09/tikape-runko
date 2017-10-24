@@ -13,8 +13,8 @@ and open the template in the editor.
     <body>
         <h1> Raaka-aineet </h1>
         <ol>
-            <li th:each="raakaAineet: ${raakaAineet}">
-                <span th:text="${raakaAineet}">Raaka-aineen nimi</span> <a th:href="${'/annokset/' + annos.nimi}">linkki</a>
+            <li th:each="raakaAineet: ${RaakaAineet}">
+                <span th:text="${raakaAineet.nimi}">Raaka-aineen nimi</span> 
             </li>
         </ol>
         

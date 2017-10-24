@@ -23,7 +23,7 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
 
     public List<RaakaAine> findOneWithId(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine, Annos, AnnosRaakaAine WHERE Raakaaine.id = AnnosRaakaAine.raaka_aine_Id AND AnnosRaakaAine.raaka_aine_id = annos.id AND annos.id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine, Annos, AnnosRaakaAine WHERE Raakaaine.id = AnnosRaakaAine.raaka_aine_Id AND AnnosRaakaAine.annos_id = annos.id AND annos.id = ?");
 
         stmt.setObject(1, key);
         List<RaakaAine> raakaAineet = new ArrayList<>();
@@ -74,7 +74,7 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
        
     public RaakaAine findOne(String key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine WHERE nimi = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine WHERE id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
