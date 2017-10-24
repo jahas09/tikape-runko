@@ -12,14 +12,8 @@ and open the template in the editor.
 
     <body>
         <h1> Lisää uusi raaka-aine </h1>
-        <h2>Lista raaka-ainesta jotka on jo tietokannassa</h2>
-        <h3 th:text="${annos}">testi</h3>
+        <h2 th:text="${annos}">testi</h2>
 
-        <ol>
-            <li th:each="raaka: ${raaka}">
-                <span th:text="${raaka.nimi}">raakaaineen nimi</span> 
-            </li>
-        </ol>
 
         <form method="POST" action="/RaakaAineLuonti">
             Raakaaine:<br/>

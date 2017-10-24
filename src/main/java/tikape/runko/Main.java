@@ -40,14 +40,14 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         get("/annokset/:id", (req, res) -> {
-            HashMap map = new HashMap<>();
+            HashMap<String, List> map = new HashMap<>();
             //Haetaan kaikki annoraakaaineet tietylle annokselle
             List<AnnosRaakaAine> lista = annosraakaaineDao.findAll(Integer.parseInt(req.params("id")));
             List<RaakaAine> laita = new ArrayList<>();
             //Muutetaan annosraakaaineet raakaaineiksi
             for (AnnosRaakaAine r : lista){
                 int id = r.getRaakaaineid();
-                laita.add(raakaaineDao.findOne(id));
+                laita.add(raakaaineDao.findOne(id));               
             }
             map.put("raakaAineet", laita);
             return new ModelAndView(map, "ohje");
@@ -74,10 +74,10 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("raaka", raakaaineDao.findAll());
             //Annetaa raakaineluonti sivulle annoksen nimi
-           // map.put("annos", testi.get(0));
-            //Annos a = annosDao.findOne(testi.get(0));
-            //Annetaan lista jossa on vain lisättävän annoksen raakaaineet
-            //map.put("raakaAine", annosraakaaineDao.findAll(a.getId()));
+            map.put("annos", testi.get(0));
+            Annos a = annosDao.findOne(testi.get(0));
+           // Annetaan lista jossa on vain lisättävän annoksen raakaaineet
+            map.put("raakaAine", annosraakaaineDao.findAll(a.getId()));
             return new ModelAndView(map, "RaakaAineLuonti");
         }, new ThymeleafTemplateEngine());
         testi.clear();

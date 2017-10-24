@@ -12,11 +12,12 @@ and open the template in the editor.
 
     <body>
         <h1> Raaka-aineet </h1>
-        <ol>
-            <li th:each="raakaAineet: ${RaakaAineet}">
-                <span th:text="${raakaAineet.nimi}">Raaka-aineen nimi</span> 
+
+<ul>
+            <li th:each="raakaaine: ${raakaAineet}">
+                <span th:text="${raakaaine.nimi}">1</span> 
             </li>
-        </ol>
+        </ul>
         
         <h1> Ohje </h1>
     </body>
