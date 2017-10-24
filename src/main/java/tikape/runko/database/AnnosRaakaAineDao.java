@@ -106,9 +106,9 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO AnnosRaakaAine (annos_id, raaka_aine_id, maara, ohje, jarjestys) VALUES (?,?,?,?,?)");
                 stmt.setInt(1, annos.getId());
                 stmt.setInt(2, raakaaine.getId());
-                stmt.setString(5, jarjestys);
                 stmt.setString(3, maara);
                 stmt.setString(4, ohje);
+                stmt.setString(5, jarjestys);
                 stmt.executeUpdate();
             }
     }

@@ -74,7 +74,7 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
        
     public RaakaAine findOne(String key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Raakaaine WHERE nimi = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();

@@ -74,7 +74,10 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("raaka", raakaaineDao.findAll());
             //Annetaa raakaineluonti sivulle annoksen nimi
-            map.put("annos", testi.get(0));
+           // map.put("annos", testi.get(0));
+            //Annos a = annosDao.findOne(testi.get(0));
+            //Annetaan lista jossa on vain lisättävän annoksen raakaaineet
+            //map.put("raakaAine", annosraakaaineDao.findAll(a.getId()));
             return new ModelAndView(map, "RaakaAineLuonti");
         }, new ThymeleafTemplateEngine());
         testi.clear();
@@ -90,6 +93,7 @@ public class Main {
             //muuttuja jotta osataan luoda oikea annosraakaaine. 
             annosDao.lisaaAnnos(testi.get(0));
             Annos a = annosDao.findOne(testi.get(0));
+            raakaaineDao.lisaaRaakaAine(req.queryParams("Raakaaine"));
             RaakaAine r = raakaaineDao.findOne(req.queryParams("Raakaaine"));
             annosraakaaineDao.lisaa(a, r, maara, ohje, jarjestys);
             res.redirect("/RaakaAineLuonti");
