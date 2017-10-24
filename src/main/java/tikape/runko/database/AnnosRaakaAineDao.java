@@ -72,6 +72,7 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
 
         return annokset;
     }
+
     public List<AnnosRaakaAine> findAll(Integer annosId) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE annos_id = ?");
@@ -102,6 +103,9 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
     }
 
     public void lisaa(Annos annos, RaakaAine raakaaine, String maara, String ohje, String jarjestys) throws SQLException {
+        AnnosRaakaAine lisattava = onkoTallennettu(annos.getId(), raakaaine.getId(), maara, ohje, jarjestys);
+
+        if (lisattava == null) {
             try (Connection conn = database.getConnection()) {
                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO AnnosRaakaAine (annos_id, raaka_aine_id, maara, ohje, jarjestys) VALUES (?,?,?,?,?)");
                 stmt.setInt(1, annos.getId());
@@ -111,5 +115,24 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
                 stmt.setString(5, jarjestys);
                 stmt.executeUpdate();
             }
+        }
+    }
+
+    private AnnosRaakaAine onkoTallennettu(int annosid, int raakaaineid,String maara, String ohje, String jarjestys)  throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT annos_id, raaka_aine_id, maara, ohje, jarjestys FROM AnnosRaakaAine WHERE annos_id = ? AND raaka_aine_id = ? AND maara = ? AND ohje = ? AND jarjestys = ? ");
+            stmt.setInt(1, annosid);
+            stmt.setInt(2, raakaaineid);
+            stmt.setString(3, maara);
+            stmt.setString(4, ohje);
+            stmt.setString(5, jarjestys);
+
+            ResultSet result = stmt.executeQuery();
+            if (!result.next()) {
+                return null;
+            }
+            conn.close();
+            return new AnnosRaakaAine(annosid,raakaaineid,maara, ohje,jarjestys);
+        }
     }
 }
