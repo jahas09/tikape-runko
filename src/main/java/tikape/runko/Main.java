@@ -40,7 +40,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         get("/annokset/:id", (req, res) -> {
-            HashMap<String, List> map = new HashMap<>();
+            HashMap map = new HashMap<>();
             //Haetaan kaikki annoraakaaineet tietylle annokselle
             List<AnnosRaakaAine> lista = annosraakaaineDao.findAll(Integer.parseInt(req.params("id")));
             List<RaakaAine> laita = new ArrayList<>();
@@ -49,6 +49,7 @@ public class Main {
                 int id = r.getRaakaaineid();
                 laita.add(raakaaineDao.findOne(id));               
             }
+            map.put("teksti", lista.get(0));
             map.put("raakaAineet", laita);
             return new ModelAndView(map, "ohje");
         }, new ThymeleafTemplateEngine());

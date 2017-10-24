@@ -13,12 +13,13 @@ and open the template in the editor.
     <body>
         <h1> Raaka-aineet </h1>
 
-<ul>
+        <ul>
             <li th:each="raakaaine: ${raakaAineet}">
                 <span th:text="${raakaaine.nimi}">1</span> 
             </li>
         </ul>
         
-        <h1> Ohje </h1>
+        
+        <h2 th:text="${teksti.ohje}">testi</h2>
     </body>
 </html>
