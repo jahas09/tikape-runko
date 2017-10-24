@@ -53,7 +53,9 @@ public class Main {
             return new ModelAndView(map, "ohje");
         }, new ThymeleafTemplateEngine());
 
-        ArrayList<String> testi = new ArrayList<>();
+        ArrayList<String> annoksenNimi = new ArrayList<>();
+        ArrayList<String> annosOhje = new ArrayList<>();
+        
         Spark.get("/AnnosLuonti", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("annokset", annosDao.findAll());
@@ -64,7 +66,10 @@ public class Main {
         Spark.post("/AnnosLuonti", (req, res) -> {
             annosDao.lisaaAnnos(req.queryParams("name"));
             //Otetaan talteen annoksen nimi, en osaa antaa sitä fiksusti html sivulle niin purkka ratkasu
-            testi.add(req.queryParams("name"));
+            annoksenNimi.clear();
+            annoksenNimi.add(req.queryParams("name"));
+            annosOhje.clear();
+            annosOhje.add(req.queryParams("ohje"));
             //Ohjataan suoraan raakaaineluonti sivulle lisäämään raakaaineita
             res.redirect("/RaakaAineLuonti");
             return "";
@@ -74,25 +79,24 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("raaka", raakaaineDao.findAll());
             //Annetaa raakaineluonti sivulle annoksen nimi
-            map.put("annos", testi.get(0));
-            Annos a = annosDao.findOne(testi.get(0));
+            map.put("annos", annoksenNimi.get(0));
+            Annos a = annosDao.findOne(annoksenNimi.get(0));
            // Annetaan lista jossa on vain lisättävän annoksen raakaaineet
             map.put("raakaAine", annosraakaaineDao.findAll(a.getId()));
             return new ModelAndView(map, "RaakaAineLuonti");
         }, new ThymeleafTemplateEngine());
-        testi.clear();
 
         Spark.post("/RaakaAineLuonti", (Request req, Response res) -> {
             
             raakaaineDao.lisaaRaakaAine(req.queryParams("Raakaaine"));
-            String ohje = req.queryParams("Ohje");
+            String ohje = annosOhje.get(0);
             String maara = req.queryParams("Maara");
             String jarjestys = req.queryParams("Jarjestys");
 
             //Koska en osaa palauttaa annoksen nimeä html sivulta niin purkkaratkasulla otetaan annoksen nimi muistista ja luodaan siitä annos
             //muuttuja jotta osataan luoda oikea annosraakaaine. 
-            annosDao.lisaaAnnos(testi.get(0));
-            Annos a = annosDao.findOne(testi.get(0));
+            annosDao.lisaaAnnos(annoksenNimi.get(0));
+            Annos a = annosDao.findOne(annoksenNimi.get(0));
             raakaaineDao.lisaaRaakaAine(req.queryParams("Raakaaine"));
             RaakaAine r = raakaaineDao.findOne(req.queryParams("Raakaaine"));
             annosraakaaineDao.lisaa(a, r, maara, ohje, jarjestys);
