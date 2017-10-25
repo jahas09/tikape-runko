@@ -44,13 +44,20 @@ public class Main {
             //Haetaan kaikki annoraakaaineet tietylle annokselle
             List<AnnosRaakaAine> lista = annosraakaaineDao.findAll(Integer.parseInt(req.params("id")));
             List<RaakaAine> laita = new ArrayList<>();
+            //Teksti lista luodaan jotta saadaan yhdistettyä tiedot raakaaineista ja annosraakaaineista.
+            List<String> teksti = new ArrayList<>();
             //Muutetaan annosraakaaineet raakaaineiksi
             for (AnnosRaakaAine r : lista){
                 int id = r.getRaakaaineid();
                 laita.add(raakaaineDao.findOne(id));               
             }
+            
+            //Luodaan teksti listalle muuttaja tulostus muodossa.
+            for (int i = 0; i < lista.size(); i++) {
+             teksti.add(laita.get(i).getNimi() + " "+lista.get(i).getMaara());
+            }
             map.put("teksti", lista.get(0));
-            map.put("raakaAineet", laita);
+            map.put("raakaAineet", teksti);
             return new ModelAndView(map, "ohje");
         }, new ThymeleafTemplateEngine());
 
@@ -78,6 +85,14 @@ public class Main {
 
         Spark.get("/RaakaAineLuonti", (req, res) -> {
             HashMap map = new HashMap<>();
+            List<String> joLaitettu = new ArrayList<>();
+            List<AnnosRaakaAine> annosraakaaineet = new ArrayList<>();
+            Integer id = annosDao.findOne(annoksenNimi.get(0)).getId();
+            annosraakaaineet = annosraakaaineDao.findAll(id);
+            for (int i = 0; i < annosraakaaineet.size(); i++) {
+                joLaitettu.add(raakaaineDao.findOne(annosraakaaineet.get(i).getRaakaaineid()).getNimi() +" " +annosraakaaineet.get(i).getMaara());
+            }
+            map.put("raakaAineet", joLaitettu);
             map.put("raaka", raakaaineDao.findAll());
             //Annetaa raakaineluonti sivulle annoksen nimi
             map.put("annos", annoksenNimi.get(0));
