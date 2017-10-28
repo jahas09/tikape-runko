@@ -44,6 +44,7 @@ public class Main {
             //Haetaan kaikki annoraakaaineet tietylle annokselle
             List<AnnosRaakaAine> lista = annosraakaaineDao.findAll(Integer.parseInt(req.params("id")));
             List<RaakaAine> laita = new ArrayList<>();
+            String annos = annosDao.findOne(Integer.parseInt(req.params("id"))).getNimi();
             //Teksti lista luodaan jotta saadaan yhdistettyä tiedot raakaaineista ja annosraakaaineista.
             List<String> teksti = new ArrayList<>();
             //Muutetaan annosraakaaineet raakaaineiksi
@@ -56,6 +57,7 @@ public class Main {
             for (int i = 0; i < lista.size(); i++) {
              teksti.add(laita.get(i).getNimi() + " "+lista.get(i).getMaara());
             }
+            map.put("annos", annos);
             map.put("teksti", lista.get(0));
             map.put("raakaAineet", teksti);
             return new ModelAndView(map, "ohje");

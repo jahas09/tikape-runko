@@ -11,7 +11,8 @@ and open the template in the editor.
     </head>
 
     <body>
-        <h1> Raaka-aineet </h1>
+        <h1 th:text="${annos}">annoksen nimi</h1>
+        <h2> Raaka-aineet: </h2>
 
         <ul>
             <li th:each="raakaaine: ${raakaAineet}">
@@ -19,7 +20,7 @@ and open the template in the editor.
             </li>
         </ul>
         
-        
-        <h2 th:text="${teksti.ohje}">testi</h2>
+        <h2> Ohje: </h2>
+        <h3 th:text="${teksti.ohje}">testi</h3>
     </body>
 </html>
